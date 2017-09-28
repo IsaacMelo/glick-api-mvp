@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+	version="2.1">
+	
+		<named-native-query name="User.dashboard" result-set-mapping="userDashboadMapping">
+		<query>
+SELECT *
+FROM   (SELECT Sum(carbohydrates) as carbohydrates FROM   food WHERE  user_id = :userID) AS F,
+       (SELECT Sum(CASE WHEN value > 180 THEN 1 ELSE 0 END) as highs,
+               Sum(CASE WHEN value &lt; 70 THEN 1 ELSE 0 END) as lows,
+               Avg(value) as average,
+               Max(value) - Min(value) as changes
+        FROM   glucose WHERE  user_id = :userID GROUP  BY user_id) AS G,
+		(SELECT Sum(quantity) as score from score where user_id = :userID) AS S		        
+	    </query>
+	</named-native-query>
+	
+	<sql-result-set-mapping name="userDashboadMapping">
+		<constructor-result target-class="com.glick.api.repository.projection.UserDashboard">
+			<column name="carbohydrates" class="java.lang.Double"/>
+			<column name="highs" class="java.lang.Integer"/>
+			<column name="lows" class="java.lang.Integer"/>
+			<column name="average" class="java.lang.Double"/>
+			<column name="changes" class="java.lang.Double"/>
+			<column name="score" class="java.lang.Double"/>
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+</entity-mappings>
