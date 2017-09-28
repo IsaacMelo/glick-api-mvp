@@ -4,19 +4,25 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.glick.api.model.Food;
 import com.glick.api.model.User;
 import com.glick.api.repository.FoodRepository;
+import com.glick.api.service.event.score.ScoreEvent;
 
 @Service
 public class FoodService {
 	@Autowired
 	private FoodRepository foodRepository;
 
+	@Autowired
+	private ApplicationEventPublisher publisher;
+	
 	public List<Food> listAll() {
 		return foodRepository.findAll();
 	}
@@ -46,11 +52,13 @@ public class FoodService {
 		return foodRepository.save(food);
 	}
 
+	@Transactional
 	public List<Food> save(User user, List<Food> foods) {
 		for (Food food: foods) {
 			food.setUser(user);
+			publisher.publishEvent(new ScoreEvent(user,100));
 		}
-
+		
 		return foodRepository.save(foods);
 	}
 

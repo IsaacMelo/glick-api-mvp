@@ -4,18 +4,24 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.glick.api.model.Glucose;
 import com.glick.api.model.User;
 import com.glick.api.repository.GlucoseRepository;
+import com.glick.api.service.event.score.ScoreEvent;
 
 @Service
 public class GlucoseService {
 	@Autowired
 	private GlucoseRepository glucoseRepository;
+	
+	@Autowired
+	private ApplicationEventPublisher publisher;
 
 	public List<Glucose> listAll() {
 		return glucoseRepository.findAll();
@@ -40,8 +46,10 @@ public class GlucoseService {
 		return glucoseRepository.findByUser(user);
 	}
 
+	@Transactional
 	public Glucose save(User user, Glucose glucose) {
 		glucose.setUser(user);
+		publisher.publishEvent(new ScoreEvent(user,100));
 		return glucoseRepository.save(glucose);
 	}
 

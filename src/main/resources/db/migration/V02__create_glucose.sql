@@ -49,7 +49,13 @@ CREATE TABLE medication (
     REFERENCES user (user_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO glucose (glucose_id, value, user_id, insulin_unity) VALUES ('1', '200', '1','1');
-INSERT INTO food (food_id, carbohydrates, quantity, user_id) VALUES ('1', '350', '2', '1');
-INSERT INTO food (food_id, carbohydrates, quantity, user_id) VALUES ('2', '350', '2', '1');
-INSERT INTO food (food_id, carbohydrates, quantity, user_id) VALUES ('3', '300', '2', '1');
+INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+
+INSERT INTO food (food_id, carbohydrates, quantity, proteins, calories, fats, user_id, create_date, modify_date) VALUES (0, '350', '2', '1' , '1', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO food (food_id, carbohydrates, quantity, proteins, calories, fats, user_id, create_date, modify_date) VALUES (0, '350', '2', '1' , '1', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO food (food_id, carbohydrates, quantity, proteins, calories, fats, user_id, create_date, modify_date) VALUES (0, '350', '2', '1' , '1', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO food (food_id, carbohydrates, quantity, proteins, calories, fats, user_id, create_date, modify_date) VALUES (0, '350', '2', '1' , '1', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+
