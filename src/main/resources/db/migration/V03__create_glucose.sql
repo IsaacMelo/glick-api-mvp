@@ -29,10 +29,14 @@ CREATE TABLE food (
   servings VARCHAR(255) NULL DEFAULT NULL,
   type VARCHAR(255) NULL DEFAULT NULL,
   user_id BIGINT(20) NULL DEFAULT NULL,
+  score_id BIGINT(20) NULL DEFAULT NULL,
   PRIMARY KEY (food_id),
   CONSTRAINT FKuser_food
     FOREIGN KEY (user_id)
-    REFERENCES user (user_id)
+    REFERENCES user (user_id),
+ CONSTRAINT FKscore_food
+    FOREIGN KEY (score_id)
+    REFERENCES score (score_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE medication (

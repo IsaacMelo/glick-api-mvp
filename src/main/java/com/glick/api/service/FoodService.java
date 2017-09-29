@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.glick.api.model.Food;
+import com.glick.api.model.Score;
 import com.glick.api.model.User;
 import com.glick.api.repository.FoodRepository;
+import com.glick.api.repository.ScoreRepository;
 import com.glick.api.service.event.score.ScoreEvent;
 
 @Service
@@ -21,7 +23,7 @@ public class FoodService {
 	private FoodRepository foodRepository;
 
 	@Autowired
-	private ApplicationEventPublisher publisher;
+	ScoreRepository scoreRepository;
 	
 	public List<Food> listAll() {
 		return foodRepository.findAll();
@@ -52,22 +54,23 @@ public class FoodService {
 		return foodRepository.save(food);
 	}
 
-	@Transactional
 	public List<Food> save(User user, List<Food> foods) {
 		for (Food food: foods) {
+			Score score = new Score();
+			score.setUser(user);
+			score.setQuantity(100);
+			
 			food.setUser(user);
-			publisher.publishEvent(new ScoreEvent(user,100));
+			food.setScore(score);
 		}
 		
 		return foodRepository.save(foods);
 	}
 
 	public void delete(Long id) {
-		try {
-			foodRepository.delete(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Food not found.");
-		}
+		Food food = find(id);
+		int scoreId = food.getScore().getId();
+		scoreRepository.delete();
 	}
 
 	public void update(User user, Food food) {

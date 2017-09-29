@@ -14,11 +14,11 @@ public class ScoreListener {
 	private ScoreRepository scoreRepository;
 
 	@EventListener
-	public void insertScore(ScoreEvent scoreEvent){
+	public Score insertScore(ScoreEvent scoreEvent){
 		Score score = new Score();
 		score.setQuantity(scoreEvent.getQuantity());
 		score.setUser(scoreEvent.getUser());
 		
-		scoreRepository.save(score);
+		return scoreRepository.save(score);
 	}
 }
