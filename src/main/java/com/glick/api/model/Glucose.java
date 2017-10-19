@@ -36,12 +36,6 @@ public class Glucose {
 	@Column(name = "reading_status")
 	private String readingStatus;
 	
-	@Column(name = "medication")
-	private String medication;
-	
-	@Column(name = "insulin_unity")
-	private double insulinUnity; 
-
 	@Column(name = "reading_date")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date readingDate;
@@ -88,22 +82,6 @@ public class Glucose {
 
 	public void setReadingStatus(String readingStatus) {
 		this.readingStatus = readingStatus;
-	}
-
-	public String getMedication() {
-		return medication;
-	}
-
-	public void setMedication(String medication) {
-		this.medication = medication;
-	}
-
-	public double getInsulinUnity() {
-		return insulinUnity;
-	}
-
-	public void setInsulinUnity(double insulinUnity) {
-		this.insulinUnity = insulinUnity;
 	}
 
 	public Date getCreateDate() {

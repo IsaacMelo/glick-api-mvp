@@ -2,6 +2,7 @@ package com.glick.api.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -30,12 +32,17 @@ public class Medication {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@Column(name = "medication_type")
-	private String medicationType;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JsonIgnore
+	@JoinColumn(name = "glucose_id")
+	private Glucose glucose;
+	
+	@Column(name = "medication_status")
+	private String medicationStatus;
 
-	@Column(name = "quantity")
-	private double quantity;
-
+	@Column(name = "insulin_unities")
+	private double insulinUnities;
+	
 	@Column(name = "reading_date")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date readingDate;
@@ -68,20 +75,28 @@ public class Medication {
 		this.user = user;
 	}
 
-	public String getMedicationType() {
-		return medicationType;
+	public String getMedicationStatus() {
+		return medicationStatus;
 	}
 
-	public void setMedicationType(String medicationType) {
-		this.medicationType = medicationType;
+	public void setMedicationStatus(String medicationStatus) {
+		this.medicationStatus = medicationStatus;
 	}
 
-	public double getQuantity() {
-		return quantity;
+	public double getInsulinUnities() {
+		return insulinUnities;
 	}
 
-	public void setQuantity(double quantity) {
-		this.quantity = quantity;
+	public void setInsulinUnities(double insulinUnities) {
+		this.insulinUnities = insulinUnities;
+	}
+
+	public Glucose getGlucose() {
+		return glucose;
+	}
+
+	public void setGlucose(Glucose glucose) {
+		this.glucose = glucose;
 	}
 
 	public Date getCreateDate() {

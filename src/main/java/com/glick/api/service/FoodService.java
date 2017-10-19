@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.glick.api.model.Food;
 import com.glick.api.model.Score;
+import com.glick.api.model.ScoreType;
 import com.glick.api.model.User;
 import com.glick.api.repository.FoodRepository;
 import com.glick.api.repository.ScoreRepository;
@@ -59,6 +60,7 @@ public class FoodService {
 			Score score = new Score();
 			score.setUser(user);
 			score.setQuantity(100);
+			score.setType(ScoreType.FOOD);
 			
 			food.setUser(user);
 			food.setScore(score);
@@ -68,9 +70,7 @@ public class FoodService {
 	}
 
 	public void delete(Long id) {
-		Food food = find(id);
-		int scoreId = food.getScore().getId();
-		scoreRepository.delete();
+		foodRepository.delete(id);
 	}
 
 	public void update(User user, Food food) {
