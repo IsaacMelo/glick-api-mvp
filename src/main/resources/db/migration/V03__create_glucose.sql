@@ -6,10 +6,14 @@ CREATE TABLE glucose (
   modify_date DATETIME NULL DEFAULT NULL,
   reading_date DATETIME NULL DEFAULT NULL,
   user_id BIGINT(20) NULL DEFAULT NULL,
+  score_id BIGINT(20) NULL DEFAULT NULL,
   PRIMARY KEY (glucose_id),
   CONSTRAINT FKuser_glucose
     FOREIGN KEY (user_id)
-    REFERENCES user (user_id)
+    REFERENCES user (user_id),
+CONSTRAINT FKscore_glucose
+    FOREIGN KEY (score_id)
+    REFERENCES score (score_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE medication (
@@ -55,10 +59,10 @@ CREATE TABLE food (
     REFERENCES score (score_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
-INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
-INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
-INSERT INTO glucose (glucose_id, value, user_id, insulin_unity, create_date, modify_date) VALUES ('0', '200', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO glucose (glucose_id, value, user_id, create_date, modify_date) VALUES ('0', '200', '1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO glucose (glucose_id, value, user_id, create_date, modify_date) VALUES ('0', '200', '1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO glucose (glucose_id, value, user_id, create_date, modify_date) VALUES ('0', '200', '1','2017-09-28 14:12:44','2017-09-28 14:12:44');
+INSERT INTO glucose (glucose_id, value, user_id, create_date, modify_date) VALUES ('0', '200', '1','2017-09-28 14:12:44','2017-09-28 14:12:44');
 
 INSERT INTO food (food_id, carbohydrates, quantity, proteins, calories, fats, user_id, create_date, modify_date) VALUES (0, '350', '2', '1' , '1', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');
 INSERT INTO food (food_id, carbohydrates, quantity, proteins, calories, fats, user_id, create_date, modify_date) VALUES (0, '350', '2', '1' , '1', '1','1','2017-09-28 14:12:44','2017-09-28 14:12:44');

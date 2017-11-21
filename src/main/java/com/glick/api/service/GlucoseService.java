@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.glick.api.model.Glucose;
+import com.glick.api.model.Score;
+import com.glick.api.model.ScoreType;
 import com.glick.api.model.User;
 import com.glick.api.repository.GlucoseRepository;
 import com.glick.api.service.event.score.ScoreEvent;
@@ -48,8 +50,13 @@ public class GlucoseService {
 
 	@Transactional
 	public Glucose save(User user, Glucose glucose) {
+		Score score = new Score();
+		score.setUser(user);
+		score.setQuantity(100);
+		score.setType(ScoreType.GLUCOSE);
+		
 		glucose.setUser(user);
-		publisher.publishEvent(new ScoreEvent(user,100));
+		glucose.setScore(score);
 		return glucoseRepository.save(glucose);
 	}
 

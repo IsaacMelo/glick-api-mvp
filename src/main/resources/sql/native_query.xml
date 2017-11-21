@@ -6,14 +6,30 @@
 	
 		<named-native-query name="User.dashboard" result-set-mapping="userDashboadMapping">
 		<query>
-SELECT *
-FROM   (SELECT Sum(carbohydrates) as carbohydrates FROM   food WHERE  user_id = :userID) AS F,
-       (SELECT Sum(CASE WHEN value > 180 THEN 1 ELSE 0 END) as highs,
-               Sum(CASE WHEN value &lt; 70 THEN 1 ELSE 0 END) as lows,
-               Avg(value) as average,
-               Max(value) - Min(value) as changes
-        FROM   glucose WHERE  user_id = :userID GROUP  BY user_id) AS G,
-		(SELECT Sum(quantity) as score from score where user_id = :userID) AS S		        
+			SELECT coalesce(carbohydrates,0) AS carbohydrates,
+			       coalesce(highs,0) AS highs,
+			       coalesce(lows,0) AS lows,
+			       coalesce(average,0) AS average,
+			       coalesce(changes,0) AS changes,
+			       coalesce(score,0) AS score
+			FROM
+			  (SELECT Sum(carbohydrates) AS carbohydrates
+			   FROM food WHERE user_id = :userID AND date_format(create_date,'%Y-%m-%d') = CURDATE()) AS F,
+			
+			  (SELECT highs, lows, average, changes
+			   FROM (SELECT 1 AS COL) U
+			   LEFT JOIN
+			     (SELECT 1 AS COL,
+			             Sum(CASE WHEN value > 180 THEN 1 ELSE 0 END) AS highs,
+			             Sum(CASE WHEN value &lt; 70 THEN 1 ELSE 0 END) AS lows,
+			             Avg(value) AS average,
+			             Max(value) - Min(value) AS changes
+			      FROM glucose
+			      WHERE user_id = :userID AND date_format(create_date,'%Y-%m-%d') = CURDATE()
+			      GROUP BY user_id) TMP ON TMP.COL = U.COL) AS G,
+			
+			  (SELECT Sum(quantity) AS score
+			   FROM score WHERE user_id = :userID AND date_format(create_date,'%Y-%m-%d') = CURDATE()) AS S        
 	    </query>
 	</named-native-query>
 	

@@ -2,6 +2,7 @@ package com.glick.api.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Glucose {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "glucose_id")
 	private long id;
 
@@ -29,6 +31,11 @@ public class Glucose {
 	@JsonIgnore
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JsonIgnore
+	@JoinColumn(name = "score_id")
+	private Score score;
 
 	@Column(name = "value")
 	private double value;
@@ -106,5 +113,13 @@ public class Glucose {
 
 	public void setReadingDate(Date readingDate) {
 		this.readingDate = readingDate;
+	}
+	
+	public Score getScore() {
+		return score;
+	}
+
+	public void setScore(Score score) {
+		this.score = score;
 	}
 }
